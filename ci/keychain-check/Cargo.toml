@@ -1,0 +1,21 @@
+[package]
+name = "keychain-check"
+version = "0.0.0"
+edition = "2021"
+publish = false
+
+# Builds src-tauri/src/keychain.rs on its own, with the app's keyring
+# features, so the real credential store of each OS can be tested without
+# the rest of the app (models, Vulkan, a window).
+[lib]
+path = "src/lib.rs"
+# The module's own tests need the app (tauri); tests/ covers it here.
+test = false
+
+[dependencies]
+keyring = { version = "3", features = ["apple-native", "windows-native", "async-secret-service", "tokio", "crypto-rust"] }
+
+[workspace]
+
+[dev-dependencies]
+tokio = { version = "1", features = ["rt-multi-thread", "macros"] }
